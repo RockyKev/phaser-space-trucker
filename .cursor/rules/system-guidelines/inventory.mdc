@@ -1,0 +1,96 @@
+<!--
+FILE: inventory.mdc
+VERSION: 1.0
+UPDATED: 2025-07-01
+DESC: Tracks all items the player is carrying, including cargo, tools, and delivery-bound goods.
+-->
+
+# Inventory System – Space Trucker
+
+The Inventory System manages all player-held items across phases. It supports delivery-linked cargo, damage modeling, and future capacity management.
+
+---
+
+## 🎮 Player Fantasy
+
+You're a professional hauler. Your cargo is your livelihood — track it, protect it, deliver it in one piece.
+
+---
+
+## 📊 Data Structure (Per Item)
+
+```ts
+{
+  id: "corpse-m39-ss22",
+  name: "Body (Covenant Courier)",
+  description: "Stored in low-temp sealed wrap. Emits faint tracer signature.",
+  type: "corpse" | "goods" | "tool" | "fuel" | "module" | "unknown",
+
+  max_durability: 10000,
+  current_durability: 9820,
+
+  mass: 12.5,
+  size: 3,  // 1–6 scale, used for limited cargo capacity
+
+  jobId: "req-auriga-442",
+
+  flags: ["fragile", "sealed", "haunted"]
+}
+```
+
+---
+
+## 📦 Inventory Responsibilities
+
+| Function | Description |
+|----------|-------------|
+| Track Items | Inventory is persistent across phases, serialized in saves |
+| Job Sync | Ties cargo to jobs via `jobId` |
+| Damage System | Items only lose durability — from hazards, collisions, or decay |
+| UI Adapter | Used for HUD, cargo screen, tooltips |
+| Filters & Tags | Enables sorting by job, type, condition |
+
+---
+
+## 🛠 Handling Behavior
+
+- Items **only lose durability**
+- Damage sources:
+  - Collisions
+  - Space hazards (Phase 2 hazards, Phase 3 effects)
+- No automatic healing
+- Items can be:
+  - Jettisoned
+  - Sold
+  - Delivered
+
+---
+
+## 🔗 System Interactions
+
+| System | Interaction |
+|--------|-------------|
+| Job System | Adds cargo items at job start |
+| Delivery Grading | Reads durability at delivery time |
+| Trader (Facilities) | Buy/sell eligible cargo |
+| Encounters | Triggers if flagged item is scanned in certain systems |
+| Star System Law | Evaluates contraband based on `flags` |
+| Ship Config (Future) | May impose cargo capacity limits based on `size` |
+
+---
+
+## 📋 UI Elements
+
+| View | Description |
+|------|-------------|
+| Cargo Grid | Displays icon, name, condition bar, linked job |
+| Tooltip | Shows durability, description, all item flags |
+| Filter Panel | Sort by job, damage, type, or flags |
+
+---
+
+## 🧪 Debug Features
+
+- Add test cargo
+- Spoof damage to one or all items
+- Dump full inventory state to console/log

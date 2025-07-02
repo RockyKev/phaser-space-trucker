@@ -1,0 +1,103 @@
+<!--
+FILE: space-tunnel-system.mdc
+VERSION: 1.0
+UPDATED: 2025-07-01
+DESC: Manages player-buildable space highways that boost ship travel speed across star systems.
+-->
+
+# Space Tunnel System – Space Trucker
+
+Space tunnels are **player-constructed highways** between points in a star system. Once built, they provide **speed boosts** during flight and symbolize rebuilding collapsed infrastructure.
+
+---
+
+## 🎮 Player Fantasy
+
+- Build faster routes for future deliveries.
+- Contribute to infrastructure like a real trucker guild member.
+- Unlock shortcuts to stations and gates.
+
+---
+
+## 🛠 Responsibilities
+
+| Function | Description |
+|----------|-------------|
+| Track global tunnel state | Built/unbuilt status saved per system |
+| Handle material contributions | Track what the player has added |
+| Trigger build completion | Activate effects once materials are complete |
+| Provide in-flight bonuses | Speed boost, visual indicators |
+| Show UI overlays | Mark paths, completion %
+| Sync with map loading | Load tunnel data from system file |
+
+---
+
+## 🧱 Tunnel Object Schema
+
+Each tunnel is defined in `star-system.mdc`:
+
+```ts
+{
+  id: "route-halyard-east",
+  start: { x: 900, y: 1200 },
+  end: { x: 2400, y: 1200 },
+  isBuilt: false,
+  buildRequirements: {
+    alloy: 10,
+    energyCells: 3
+  },
+  speedMultiplier: 2.5
+}
+```
+
+Internally, the system stores:
+
+```ts
+{
+  id: "route-halyard-east",
+  contributed: { alloy: 7, energyCells: 2 },
+  isBuilt: false,
+  lastUpdated: "2025-07-01T12:45Z"
+}
+```
+
+---
+
+## ⚙️ Key Methods
+
+```ts
+contributeMaterial(tunnelId: string, material: string, amount: number): boolean
+```
+Adds to the contribution count and checks if complete.
+
+```ts
+checkCompletion(tunnelId: string): boolean
+```
+Returns whether tunnel is now active and updates state.
+
+```ts
+getSpeedBonusIfOnTunnel(shipX, shipY): number
+```
+Checks proximity to completed tunnels and returns bonus.
+
+---
+
+## 🧩 System Interactions
+
+| System | Interaction |
+|--------|-------------|
+| Star System Loader | Loads tunnels from JSON and registers state |
+| Inventory | Verifies if materials are present |
+| UI Manager | Displays route overlay, contribution panel |
+| Save/Load | Persists tunnel status globally |
+| Flight | Applies speed multipliers based on position |
+
+---
+
+## 🧪 Debug Tools
+
+- Instantly complete all tunnels
+- Toggle visibility of tunnel paths
+- Log contributions and bonuses
+- Reset all tunnels in current system
+

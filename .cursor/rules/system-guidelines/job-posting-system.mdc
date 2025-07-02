@@ -21,7 +21,7 @@ This system governs how jobs are **generated and displayed** at each station.
   description: string;
   type: "main" | "side" | "misc";
   originStationIDs: string[];     // If blank, available everywhere
-  destinationID: string;
+  destinationID: string[];          // if blank, can submit anywhere 
   factionID: string;
   cargoType: string;
   reward: {

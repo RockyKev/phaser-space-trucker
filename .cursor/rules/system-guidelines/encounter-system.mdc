@@ -1,10 +1,114 @@
 <!--
 FILE: encounter-system.mdc
-VERSION: 0.1
+VERSION: 1.0
 UPDATED: 2025-07-01
-DESC: Manages random and scripted encounters during in-flight travel.
+DESC: Handles narrative and systemic space events triggered during flight, based on proximity, collision, or cargo state.
 -->
 
-# Encounter System System
+# Encounter System – Space Trucker
 
-*To be defined.*
+Encounters are ambient or triggered events that occur during **Phase 2: In-Flight Travel**. They are position-based space phenomena like distress signals, scan checkpoints, ghost zones, or space storms. All are **non-combat** and emphasize immersion, problem-solving, and professionalism.
+
+---
+
+## 🎮 Player Fantasy
+
+- The void isn't empty — it's alive, mysterious, and dangerous.
+- You’ll dodge illegal scans, help lost ships, or survive haunted debris fields.
+- The challenge is **navigating** space, not fighting in it.
+
+---
+
+## 🔁 Trigger Model
+
+Each encounter is positioned on the **2D star map** using a precise `origin`. It supports:
+
+| Trigger | Description |
+|---------|-------------|
+| **Proximity** | If player is within `radius`, a light event is triggered (radio signal, static, etc.) |
+| **Collision** | If player crosses into `collisionRadius`, a major effect or interaction occurs (dialogue, scan, damage) |
+
+Encounters never auto-repeat unless `isRepeatable: true`.
+
+---
+
+## 🧠 Example Encounter Object
+
+```ts
+{
+  id: "ghost-corpse-signal-03",
+  name: "Ghost Signal: Body Echo",
+  type: "ghost", // for categorization only
+
+  origin: { x: 1020, y: 450 },
+  radius: 500,
+  collisionRadius: 120,
+
+  inventoryType: "corpse", // optional – triggers only if player is carrying this
+
+  isActive: true,
+  hasTriggeredProximity: false,
+  hasTriggeredCollision: false,
+  isRepeatable: false,
+  repeatDelayHours: 12,  // Only used if isRepeatable
+
+  onProximityEnter: () => {
+    // trigger radio distortion, background audio, static overlay
+  },
+
+  onCollision: () => {
+    // display dialogue, damage cargo, mark job update, trigger grading penalty
+  }
+}
+```
+
+---
+
+## 🛠 Responsibilities
+
+| Function | Description |
+|----------|-------------|
+| Register on Star Map Load | Loads all encounters from map JSON |
+| Continuously Check Proximity | Uses player x/y vs origin |
+| Manage Collision Events | Triggers only once unless repeatable |
+| Dispatch Effects | UI, audio, logs, job updates |
+| Disable Triggered Encounters | Unless reset manually or after delay |
+| Dev Trigger Control | Can simulate or override for testing |
+
+---
+
+## 🔗 System Interactions
+
+| System | Interaction |
+|--------|-------------|
+| **Inventory** | Checks `inventoryType` flags (e.g. corpse, goods) |
+| **Job System** | Jobs may spawn or reference specific encounters |
+| **Radio** | Can override music/audio via `onProximityEnter` |
+| **Ship Systems** | Boosts may let you bypass some encounters |
+| **Delivery Grading** | Collisions can reduce cargo durability |
+| **Star Map** | Must support loading/placing these encounters |
+
+---
+
+## 🧪 Debug Features
+
+- Force-trigger proximity or collision by ID
+- Log state flags (active, triggered, etc.)
+- Disable encounter checks globally
+- Reset all repeatable encounters via global flag
+
+---
+
+## 🧼 Notes
+
+- Encounters have **no combat**
+- Players are **never soft-locked**
+- Supports dynamic space storytelling: spooky, strategic, or logistical
+
+---
+
+## 🔁 Follow-up Systems Needed
+
+- `star-system.mdc` – to define how encounters are placed and stored
+- `radio.mdc` – to detail how audio/radio interruption works in proximity
+- `dialogue.mdc` (optional) – if collision triggers cutscenes or choices

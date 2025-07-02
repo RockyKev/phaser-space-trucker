@@ -1,10 +1,87 @@
 <!--
 FILE: delivery-grading.mdc
-VERSION: 0.1
+VERSION: 1.0
 UPDATED: 2025-07-01
-DESC: Delivery grading system: grades job completion and determines XP/reward bonuses.
+DESC: Grades job delivery based on cargo durability, impacting XP and reputation.
 -->
 
-# Delivery Grading System
+# Delivery Grading System – Space Trucker
 
-Delivery grading system: grades job completion and determines XP/reward bonuses.
+This system calculates a letter grade (S–F) based solely on cargo durability at the time the job is turned in.
+
+---
+
+## 🎯 Player Fantasy
+
+- You're a professional courier. Handle with care.
+- Better care = better reward.
+- There are no fail states — just XP, trust, and story growth.
+
+---
+
+## 📊 Evaluation Criteria (Simplified)
+
+| Category         | Description                          |
+|------------------|--------------------------------------|
+| **Cargo Durability** | Measured 0–100% per item. Grading is based on final condition at delivery. |
+
+---
+
+## 🅰️ Grade Breakdown
+
+| Grade | Durability Range | Notes |
+|-------|------------------|-------|
+| **S** | 96-100%          | Flawless. Perfect delivery. |
+| **A** | 85–95%           | Nearly flawless. |
+| **B** | 65–84%           | Minor scuffing. Acceptable. |
+| **C** | 40–64%           | Damaged, but usable. |
+| **D** | 10–39%           | Barely intact. |
+| **F** | < 10%            | All but destroyed. Still accepted, but with strong penalty. |
+
+---
+
+## 🔗 System Interactions
+
+| Interaction | Details |
+|-------------|---------|
+| Reads from | `Inventory` (cargo durability), `Job Logbook` (job data) |
+| Triggers | `onJobGraded(jobId, grade)` and `onRewardGranted(...)` |
+| Updates | XP gain, Faction/Station rep, Job completion flags |
+
+---
+
+## 🛠 Mechanics
+
+- **Trigger**: Runs when player manually turns in a completed job
+- Pulls cargo durability from player’s `Inventory`
+- Calculates average condition across all cargo assigned to that job
+- Applies grading scale (above)
+- Outputs grade and attaches it to the job history
+
+```ts
+jobHistory.push({
+  jobId: "auriga-death-haul",
+  grade: "B",
+  rewardsGiven: true
+});
+```
+
+---
+
+## 🧪 Debug Features
+
+- Show delivery grade + reasons in the delivery UI
+- Dev panel to:
+  - Override grade
+  - Spoof durability values
+  - Preview reward differences
+
+---
+
+## 🧼 Notes
+
+- XP and Rep gain scale with grade
+- Flavor text can change based on grade ("Next time, bring bubble wrap.")
+- Some future jobs may require **minimum grades** to unlock follow-ups
+
+---

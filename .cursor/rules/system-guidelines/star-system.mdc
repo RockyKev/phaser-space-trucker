@@ -1,0 +1,163 @@
+<!--
+FILE: star-system.mdc
+VERSION: 1.0
+UPDATED: 2025-07-01
+DESC: Defines the structure, layout, and rules of a single star system in Space Trucker.
+-->
+
+# Star System – Space Trucker
+
+Each star system is a hand-authored JSON map file that controls layout, behavior, and system-specific rules. It contains station locations, hazards, encounters, gates, and player-buildable infrastructure like space tunnels.
+
+---
+
+## 🪐 Star System Object
+
+```ts
+{
+  id: "auriga-beta",
+  name: "Auriga Beta",
+  description: "A war-torn outpost system. Still smells like ozone.",
+  tags: ["haunted", "dense-space", "no-corpses"],
+
+  bounds: { width: 8000, height: 6000 },
+  background: "auriga_nebula.png",
+
+  laws: {
+    contraband_flags: ["corpse", "haunted", "unsealed"],
+    restrict_flags: ["weapon", "biohazard"]
+  },
+
+  ambientAudio: "haunted-wind-loop.mp3",
+  radioOverrides: ["auriga-radio-jazz", "pirate-news"],
+
+  stations: [ ... ],
+  encounters: [ ... ],
+  gates: [ ... ],
+  hazards: [ ... ],
+  spaceTunnels: [ ... ]
+}
+```
+
+---
+
+## 🛰️ Stations
+
+Each station defines its position, reputation gates, and enabled offerings.
+
+```ts
+{
+  id: "moon-a7-cove",
+  name: "The A7 Cove",
+  position: { x: 1300, y: 900 },
+  factionId: "auriga-union",
+  flavor: "Just one guy on a rock. He brews his own gin.",
+  traderId: "auriga-default",
+
+  access: { minRep: -100 },
+  offerings: {
+    jobBoard: { minRep: -1 },
+    trader:   { minRep: 10 },
+    shipyard: false,
+    facilities: {
+      bar: { minRep: -1 },
+      shower: false,
+      bed: { minRep: 50 },
+      supervisor: { minRep: 100 }
+    }
+  }
+}
+```
+
+---
+
+## 👾 Encounters
+
+```ts
+encounters: [
+  { id: "corpse-signal-01", randomEncounterChance: 0.2 },
+  { id: "ghost-scan-checkpoint" }
+]
+```
+
+> Encounters are referenced by ID from the encounter registry. Each one defines its own spatial logic, effects, and repeatability.
+
+---
+
+## 🚪 Gates
+
+```ts
+{
+  id: "gate-auriga-to-sargon",
+  targetSystem: "sargon-prime",
+  position: { x: 7800, y: 2800 },
+  isActive: false,
+  toActivate: {
+    materials: {
+      alloy: 12,
+      ai_chip: 1
+    },
+    requiresSupervision: true
+  }
+}
+```
+
+> Gates may require repair or contribution before use. Controlled by the player.
+
+---
+
+## ⚠️ Hazards
+
+```ts
+{
+  type: "asteroid-belt",
+  position: { x: 2000, y: 3500 },
+  proximityRadius: 800,
+  onProximityEnter: () => {
+    // Reduce speed, flash UI, apply slow visual effects
+  }
+}
+```
+
+> Hazards apply space effects based on proximity — damage, slow, UI distortion, etc.
+
+---
+
+## 🛣️ Space Tunnels (Buildable Roads)
+
+```ts
+{
+  id: "route-halyard-east",
+  start: { x: 900, y: 1200 },
+  end: { x: 2400, y: 1200 },
+  isBuilt: false,
+  buildRequirements: {
+    alloy: 10,
+    energyCells: 3
+  },
+  speedMultiplier: 2.5
+}
+```
+
+> Space tunnels are player-built fast travel lanes that boost movement once constructed.
+
+---
+
+## 🔗 Systems That Use This
+
+| System | Usage |
+|--------|-------|
+| Map | Loads spatial objects and sets system bounds |
+| Encounters | Registers region-based event triggers |
+| Inventory & Law | Validates contraband using system rules |
+| Radio | Applies ambient & broadcast changes |
+| Job System | Associates job origins with station IDs |
+
+---
+
+## 🧪 Debug & Dev Tools
+
+- Load system by ID from dev UI
+- Overlay station/zones in-editor
+- Log all proximity/collision events
+- Trigger gates and tunnels manually

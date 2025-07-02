@@ -1,10 +1,100 @@
 <!--
 FILE: boost-fuel.mdc
-VERSION: 0.1
+VERSION: 1.0
 UPDATED: 2025-07-01
-DESC: Handles boost mechanics, tied to ship modules and player stats.
+DESC: Handles boost mechanics tied to ship modules and player stats during in-flight travel.
 -->
 
-# Boost Fuel System
+# Boost Fuel System – Space Trucker
 
-*To be defined.*
+This system controls short-term boosts activated by the player during Phase 2: In-Flight Travel. Boosts are tied to ship modules, optionally affected by player stats, and consume per-type fuel.
+
+---
+
+## 🎮 Player Fantasy
+
+Boost Fuel lets the player:
+- Go faster through long hauls
+- Traverse hostile or Dense Space
+- Temporarily activate defensive or smuggling protections
+- Feel clever, not restricted
+
+---
+
+## 🧠 Functional Summary
+
+| Aspect | Behavior |
+|--------|----------|
+| Core Mechanic | Spend Boost Fuel to activate short-term effects while in-flight. |
+| Ship Modules | Determine which kinds of boost are available. |
+| Player Stats | May affect boost efficiency, or fuel use. |
+| Fuel Type | Tracked per boost type. |
+| Use Case | Manually triggered by the player, optional utility. |
+| Refill Method | At stations or fuel caches. |
+
+---
+
+## 🎯 Boost Types (Examples)
+
+| Name | Effect | Notes |
+|------|--------|-------|
+| Speed Boost | Temporarily increases flight speed | Simple and common |
+| Barrier Boost | Temporary defensive field | Good in asteroid belts |
+| Density Bypass | Fly through Dense Space (normally blocked/slowed) | Gatekeeping function |
+| Ghost Silencer | Suppresses corpse signal emission | Needed when carrying body cargo |
+| Gravity Stabilizer | Nullify the chaotic effects of intense gravity wells | Gatekeeping function |
+| Environmental Purifier | Fly through harmful atmospheric conditions, like corrosive gases or radiation | Gatekeeping function |
+| Energy Field | Fly through environmental energy/space energy | Gatekeeping function |
+| Holographic Decoy | Project a holographic duplicate of your ship | Distracts tracker ships |
+---
+
+## 🔗 System Interactions
+
+- Reads from: `ShipConfig`, `Stats`
+- Updates: `GameState.boostFuel`
+- Emits: `boostActivated(type)` via `EventBus`
+- Affects: Flight HUD visuals, Audio cues
+
+---
+
+## 🛠 Mechanics
+
+- **Boost Activation Checks**:
+  - Player is currently in-flight
+  - Ship has module that supports boost
+  - Enough fuel is available
+
+- **Fuel Format Example**:
+```ts
+boostFuel: {
+  speed: 4,
+  barrier: 2,
+  bypass: 0,
+  ghost: 0,
+  gravity: 0, 
+  purifier: 0,
+  energy: 1,
+  decoy: 2
+}
+```
+
+- **Activation Flow**:
+  1. Input triggers boost
+  2. Checks + consumes fuel
+  3. Applies temporary effect
+
+---
+
+## 🧪 Debug & Dev Mode
+
+- Simulate max fuel
+- Display HUD fuel values
+- Visual overlay for boost effects
+
+---
+
+## ✅ Summary
+
+- Boosts are optional but impactful
+- Zero risk of softlock — no boost = no shortcut, not death
+- Adds tactical + immersive flavor to long-haul travel
