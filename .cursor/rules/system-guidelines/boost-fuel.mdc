@@ -2,9 +2,9 @@
 FILE: boost-fuel.mdc
 VERSION: 0.1
 UPDATED: 2025-07-01
-DESC: Boost fuel system: determines which boosts can be triggered based on modules and stats.
+DESC: Handles boost mechanics, tied to ship modules and player stats.
 -->
 
 # Boost Fuel System
 
-Boost fuel system: determines which boosts can be triggered based on modules and stats.
+*To be defined.*

@@ -1,14 +1,90 @@
 <!--
 FILE: overview.mdc
-VERSION: 0.1
+VERSION: 1.0
 UPDATED: 2025-07-01
-DESC: Project summary, tone, constraints.
+DESC: Full project overview for Space Trucker — purpose, structure, tone, player fantasy, and architectural approach.
 -->
 
-# Space Trucker – Project Overview
+# 🚚 Project Overview: *2025 – Space Trucker*
 
-A survival-focused space cargo sim where you haul weird cargo through a handcrafted galaxy. Inspired by Euro Truck Simulator, Death Stranding, and Freespace — minus combat.
+## 🎮 What It Is
 
-- ✴️ No combat
-- 💀 Death is dangerous and taboo
-- 🪐 Galaxy is handcrafted and story-aware
+A **survival-focused space cargo sim**, inspired by *Euro Truck Simulator*, *Death Stranding*, and *Freespace* — but with zero combat. You pilot a ship across a handcrafted galaxy, picking up and delivering cargo, navigating space hazards, and adapting to a strange post-war economy shaped by death-avoidant cultures.
+
+---
+
+## 🎯 Experience Goal
+
+You’re not a hero. You’re a hauler.
+
+The fantasy is about:
+- **Surviving in a complex, haunted galaxy**
+- **Keeping your ship running**
+- **Making logistical and moral decisions**
+- **Choosing which jobs to take, which factions to support, and which truths to ignore**
+
+There are **no enemies to shoot**, only cargo to move and systems to outthink.
+
+---
+
+## 🌀 Core Gameplay Loop (Simplified)
+
+1. **Docked Phase** – Accept jobs, refuel, trade, plan next destination
+2. **In-Flight Phase** – Fly through 2.5D space, encounter optional events, listen to radio, use boost fuel
+3. **Delivery Phase** – Drop off cargo, earn rewards, receive job grading
+4. **Post-Delivery Phase** – World reacts to your actions, new jobs unlock, loop restarts
+
+All player systems (Inventory, Stats, Email, Logbook) persist between phases.
+
+---
+
+## 🗺️ Key Systems
+
+| Category | Systems |
+|---------|---------|
+| **Player Systems** | Inventory, Job Logbook, Map, Stats, Email, Encyclopedia |
+| **Station Systems** | Job Board, Trader, Shipyard, Facilities, Station Representative, Ship Configuration |
+| **Flight Systems** | Boost Fuel, Encounter System, Radio, Space Environment |
+| **Shared Systems** | GameState Manager, EventBus, Save/Load |
+| **Optional Tools** | Debug overlay, Simulator mode, Data injection (dev only) |
+
+---
+
+## 🌌 Tone & World
+
+- **Post-collapse** (not post-apocalyptic): the war is over, but paranoia, trauma, and death fears linger
+- **Death is dangerous** — monsters track scent trails from corpses, so body disposal is highly regulated
+- **Factions** have complex trade, moral, and disposal laws
+- **Travel feels lonely** — filled with quiet tension, ambient discoveries, and low-grade risk
+
+---
+
+## ✴️ Key Features
+
+- ✴️ **No combat** — only strategy, logistics, and moral decisions
+- 📦 **Cargo-centric gameplay** — jobs may involve contraband, corpses, biohazards, or rumors
+- 🚢 **Ship module upgrades** — different ships suit different hauling needs
+- 🧠 **Job quality grading** — better delivery = better XP, more trust
+- ⚖️ **Faction + station rep** — both tracked separately, impacts job access
+- 🪐 **Hand-authored star systems** — handcrafted worlds, not procedural
+- 🔄 **Phase-based loop** — each phase triggers and disables a unique set of systems
+
+---
+
+## 🧱 Architecture Summary
+
+- Phaser game, structured around a single persistent `GameScene`
+- Modular systems grouped by gameplay phase
+- **GameState Manager** used for shared state across systems
+- **EventBus** used for system communication and lifecycle hooks
+- AI and dev tools can simulate jobs, tweak stats, or trigger in-game flags
+
+---
+
+## 🧪 Development Principles
+
+- Every system is testable and swappable
+- No direct system-to-system calls — always use GameState or EventBus
+- UI and logic are separated
+- Scenes should be debug-aware
+

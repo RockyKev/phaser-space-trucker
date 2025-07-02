@@ -1,20 +1,160 @@
 <!--
 FILE: gameplay-loop.mdc
-VERSION: 0.1
+VERSION: 1.0
 UPDATED: 2025-07-01
-DESC: Core gameplay loop phases and systems.
+DESC: Full gameplay loop breakdown for Space Trucker, including phase-specific systems, data, UI, decisions, and optional features.
 -->
 
-# Gameplay Loop – Phase Overview
+# 🚚 Space Trucker – Gameplay Loop
 
-## Phase 1: Docked at Station
-- Accept jobs, trade, plan routes, upgrade ship
+Defines the complete gameplay loop across four core phases. Each phase activates a set of systems, updates specific game data, and presents player-facing decisions or UI elements.
 
-## Phase 2: In-Flight Travel
-- Navigate through 2.5D space, use boost, encounter events
+---
 
-## Phase 3: Arrival & Delivery
-- Deliver cargo, get graded, receive rewards
+## 🚩 Phase 1: Docked at Station
 
-## Phase 4: Post-Delivery Loop
-- World reacts to delivery, unlocks new opportunities
+### 🧩 Station Systems
+- Job Board
+- Trader
+- Shipyard
+- Facilities (Rumors, Bar, Shower)
+- Station Reputation
+- Station Metadata (Faction, Supervisor, Flavor Text)
+
+### 🌐 Player Systems (Always Accessible)
+- Inventory
+- Job Logbook
+- Map & Route Marker
+- Ship Configuration
+- Email
+- Encyclopedia
+- Stats & Rep System
+- Save/Load
+
+### 🖥 UI Scope
+- **Station-Scoped**: Job board, trader interface, shipyard UI, facilities UI, station rep panel
+- **Player-Scoped**: All player systems listed above
+
+### 🧠 Key Player Decisions
+- Which jobs to accept
+- What to buy/sell
+- Whether to rest or explore
+- How to upgrade ship
+- Where to go next
+
+### 🧪 Optional Interactions
+- Supervisor dialogue (via Facilities)
+- Rumor discovery
+- Story- or faction-related events
+
+---
+
+## 🚀 Phase 2: In-Flight Travel
+
+### 🧩 Core Systems (Phase-Scoped)
+- Flight System
+- Boost Fuel System (based on modules + stats)
+- Encounter System
+- Audio System (logs, radio, frequencies)
+- Space Environment Renderer
+
+> All Player Systems from Phase 1 remain available.
+
+### 📊 Data Used/Updated
+- Travel progress
+- Boost fuel consumption
+- Encounter flags
+- Job progress
+- Played/listened audio logs
+
+### 🖥 UI Scope
+- **Flight HUD**: Speed, route, star system name
+- **Boost Gauge**
+- **Event Dialogues**
+- **Environmental Alerts**
+
+### 🧠 Key Player Decisions
+- When to use boost
+- Whether to stop at encounters
+- What to listen to (tapes, radio)
+- What in-flight systems to engage
+
+### 🧪 Optional Interactions
+- Tune radio frequencies
+- Trigger POIs
+- Assist haulers
+- Mini-games during downtime
+
+---
+
+## 🚚 Phase 3: Arrival & Delivery
+
+### 🧩 Core Systems (Phase-Scoped)
+- Docking System
+- Delivery System
+- Grading System
+- Reward System
+- Flavor Presentation (arrival text, music, supervisor flavor)
+
+> All Player Systems remain available.
+
+### 📊 Data Used/Updated
+- Job status
+- XP & level
+- Credits and currencies
+- Faction/station rep
+- Inventory (delivered/earned items)
+- Story flags or unlocks
+
+### 🖥 UI Scope
+- Arrival screen
+- Delivery summary
+- Rep & unlock popups
+
+### 🧠 Key Player Decisions
+- Whether to read summaries
+- Whether to rest or relaunch
+- Whether to explore new station or story branches
+
+### 🧪 Optional Interactions
+- Mood-based arrival scenes
+- Supervisor flavor text
+- Contextual NPC/faction responses
+
+---
+
+## 🔁 Phase 4: Post-Delivery Loop
+
+### 🧩 Core Systems (Phase-Scoped)
+- Transition Handler
+- Notification System
+- Unlock Dispatcher
+- Ambient Update System
+
+> Invisible to player, runs immediately after delivery before Phase 1 restarts.
+
+### 📊 Data Used/Updated
+- Reputation state
+- Job board contents
+- Trader inventory
+- Email inbox
+- World/unlock flags
+
+### 🖥 UI Scope
+- Notification overlays
+- Email triggers
+- Visual/audio cues
+
+### 🧠 Player Decisions
+- None directly — determines new options for Phase 1
+
+### 🧪 Optional Interactions
+- Station reacts to recent delivery
+- Unlocks visual/world changes
+- Follow-up events/encounters
+
+---
+
+## ♻️ Loop Resets to Phase 1
+
+After Phase 4 completes, the player is considered docked again and resumes station interaction.

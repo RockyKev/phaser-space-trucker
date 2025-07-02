@@ -1,12 +1,121 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
 <!--
 FILE: phaser-structure.mdc
-VERSION: 0.1
+VERSION: 0.2
 UPDATED: 2025-07-01
-DESC: Describes Phaser scene and system organization.
+DESC: Defines how Phaser scenes, systems, and phase transitions are structured in Space Trucker.
 -->
 
 # Phaser Structure & System Registration
 
-- Single `GameScene` with Phase Manager
-- Systems registered modularly per phase
-- Shared access to GameState and EventBus
+## 🎮 Scene Model
+
+Space Trucker uses a **single persistent Phaser Scene** (`GameScene`) that manages all gameplay across the 4 gameplay phases:
+
+- Phase 1: Docked at Station
+- Phase 2: In-Flight Travel
+- Phase 3: Arrival & Delivery
+- Phase 4: Post-Delivery Loop
+
+This avoids unnecessary scene reloads and allows systems to persist across phases.
+
+No individual Phaser scene per phase.
+
+---
+
+## 🧩 System Registration
+
+Systems are grouped and registered **per phase**, using a centralized loader.
+
+### Example Groups
+
+- `phase1Systems`: JobBoard, Trader, Shipyard, Facilities, StationRep
+- `phase2Systems`: Flight, Boost, Encounters, Audio, SpaceRenderer
+- `phase3Systems`: Docking, Delivery, Grading, Rewards
+- `phase4Systems`: Notification, Unlock Dispatcher, Ambient Updates
+- `playerSystems`: Inventory, Job Logbook, Map, Email, Stats, Save/Load
+
+### System Registration Lifecycle
+
+```ts
+class GameScene extends Phaser.Scene {
+  create() {
+    systemRegistry.registerShared(GameState, EventBus)
+    systemRegistry.registerPlayerSystems(this)
+
+    phaseManager.setPhase("phase1")
+  }
+}
+
+---
+## 🔄 Phase Management
+
+The game uses a PhaseManager module to enable/disable system groups based on the current phase.
+
+### Phase Transition Example
+
+```ts
+phaseManager.transitionTo("phase2")
+// internally:
+systemGroups.phase1.disable()
+systemGroups.phase2.enable()
+Each system exposes:
+
+enable()
+
+disable()
+
+update() (optional, if needed per frame)
+```
+
+---
+## 📂 Suggested Folder Structure
+
+
+
+
+```
+/src/
+├── scenes/
+│   └── GameScene.ts
+├── systems/
+│   ├── player/
+│   │   ├── InventorySystem.ts
+│   │   ├── StatsSystem.ts
+│   ├── phase1/
+│   │   ├── JobBoardSystem.ts
+│   ├── phase2/
+│   │   ├── FlightSystem.ts
+│   └── ...
+├── managers/
+│   ├── PhaseManager.ts
+│   ├── SystemRegistry.ts
+│   └── GameState.ts
+├── events/
+│   └── EventBus.ts
+```
+
+
+---
+## 🧪 Debug Tools (Dev-Only)
+
+GameScene can optionally load a debug overlay:
+
+* Press D to toggle
+* View active systems
+* Simulate delivery, encounter
+* Inject job, boost fuel, rep, etc.
+
+---
+## 🔁 Notes
+
+* All systems must interact with GameState or EventBus — no direct calls between systems.
+* Systems can optionally emit lifecycle events (e.g. onJobAccepted, onDocked) through EventBus.
+* All systems must be testable in isolation (mock scene + mocked GameState).
+
+
+

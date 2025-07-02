@@ -1,0 +1,55 @@
+# Job Posting System – Station-Side
+
+This system governs how jobs are **generated and displayed** at each station.
+
+---
+
+## 📌 Purpose
+
+- Populate the **station job board**
+- Enforce prerequisites before a job appears
+- Align jobs with station ownership, faction alignment, and flavor
+
+---
+
+## 🧱 Job Posting Object
+
+```ts
+{
+  id: string;
+  title: string;
+  description: string;
+  type: "main" | "side" | "misc";
+  originStationIDs: string[];     // If blank, available everywhere
+  destinationID: string;
+  factionID: string;
+  cargoType: string;
+  reward: {
+    credits: number;
+    xp: number;
+    items?: string[];
+  };
+  repeatable?: boolean;
+  repeatDelay?: number;           // Optional: Jobs return after X completions
+  prerequisites?: string[];       // Other job IDs
+  flags?: string[];               // e.g., ["contraband", "corpse", "delicate"]
+}
+```
+
+---
+
+## 🌀 Station System Logic
+
+1. Gather jobs from all data sources
+2. Filter:
+   - Must match this station’s `originStationIDs`
+   - Must meet faction rep, station rep (optional, TBD)
+   - Must not be blocked by unmet prerequisites
+3. Push to job board UI
+
+---
+
+## 🔄 Respawn Logic (For Repeatables)
+
+- After a delay or player completion count
+- Job becomes valid again for reposting

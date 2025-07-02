@@ -1,0 +1,60 @@
+# Job Logbook System – Player-Side
+
+This system tracks **jobs the player has accepted or completed**.
+
+---
+
+## 📌 Purpose
+
+- Persist job progress across phases
+- Show status in the Logbook UI
+- Notify systems on acceptance, progress, or completion
+
+---
+
+## 🧾 Data Structure
+
+```ts
+{
+  activeJobs: Job[];
+  completedJobs: Job[];
+}
+
+type Job = {
+  id: string;
+  acceptedAt: string;              // timestamp
+  completionStatus: "pending" | "delivered";
+  qualityGrade?: "S" | "A" | "B" | "C" | "D" | "F";
+}
+```
+
+---
+
+## 🛠️ Responsibilities
+
+- Track all jobs taken
+- Limit to 20 activeJobs max.
+- Handle filtering by type, faction, destination
+- Interface with:
+  - In-Flight Decision Engine
+  - Delivery Grading System
+  - Reputation System
+
+---
+
+## 🔁 Lifecycle (Player View)
+
+1. Accept job → saved to `activeJobs`
+2. During arrival at a destination (Station, Point of Interest) → job checked for progress
+3. On delivery:
+   - Rewards triggered
+   - Grade awarded
+   - Moved to `completedJobs`
+
+---
+
+## ✅ Notes
+
+- No expiration or deadlines
+- No punishment for failed deliveries — only missed XP
+- Used across **all phases**

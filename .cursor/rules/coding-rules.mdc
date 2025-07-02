@@ -1,13 +1,5 @@
-<!--
-FILE: coding-rules.mdc
-VERSION: 0.1
-UPDATED: 2025-07-01
-DESC: Dev and code architecture rules.
--->
-
-# Coding Rules
-
-- Modular systems only
-- No direct calls between systems (use GameState or EventBus)
-- Keep UI separate from logic
-- Comment all public classes/methods
+---
+description: 
+globs: 
+alwaysApply: false
+---

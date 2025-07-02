@@ -1,9 +1,13 @@
 <!--
-FILE: faction-rep.mdc
+FILE: stats.mdc
 VERSION: 0.1
 UPDATED: 2025-07-01
-DESC: Faction reputation system: tracks station and faction-level rep and consequences.
+DESC: Tracks player level, experience, currency, and faction reputation.
 -->
+
+# Stats System
+
+*To be defined.*
 
 # Faction Reputation System
 

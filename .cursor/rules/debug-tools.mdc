@@ -1,12 +1,5 @@
-<!--
-FILE: debug-tools.mdc
-VERSION: 0.1
-UPDATED: 2025-07-01
-DESC: In-game debug overlay and test tools.
--->
-
-# Debug Tools
-
-- Toggleable dev overlay
-- Simulate job completion, boost usage, encounters
-- Show GameState values and Event logs
+---
+description: 
+globs: 
+alwaysApply: false
+---
