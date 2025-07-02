@@ -1,0 +1,20 @@
+<!--
+FILE: gameplay-loop.mdc
+VERSION: 0.1
+UPDATED: 2025-07-01
+DESC: Core gameplay loop phases and systems.
+-->
+
+# Gameplay Loop – Phase Overview
+
+## Phase 1: Docked at Station
+- Accept jobs, trade, plan routes, upgrade ship
+
+## Phase 2: In-Flight Travel
+- Navigate through 2.5D space, use boost, encounter events
+
+## Phase 3: Arrival & Delivery
+- Deliver cargo, get graded, receive rewards
+
+## Phase 4: Post-Delivery Loop
+- World reacts to delivery, unlocks new opportunities

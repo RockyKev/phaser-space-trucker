@@ -1,0 +1,10 @@
+<!--
+FILE: boost-fuel.mdc
+VERSION: 0.1
+UPDATED: 2025-07-01
+DESC: Boost fuel system: determines which boosts can be triggered based on modules and stats.
+-->
+
+# Boost Fuel System
+
+Boost fuel system: determines which boosts can be triggered based on modules and stats.

@@ -1,0 +1,12 @@
+<!--
+FILE: system-architecture.mdc
+VERSION: 0.1
+UPDATED: 2025-07-01
+DESC: Describes the core game systems and their interactions.
+-->
+
+# System Architecture
+
+Includes: Player Systems (persistent), Phase-Scoped Systems, GameState Manager, EventBus, and their connections.
+
+See mermaid.js diagram for visual reference.

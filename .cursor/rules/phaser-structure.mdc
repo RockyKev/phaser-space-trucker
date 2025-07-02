@@ -1,0 +1,12 @@
+<!--
+FILE: phaser-structure.mdc
+VERSION: 0.1
+UPDATED: 2025-07-01
+DESC: Describes Phaser scene and system organization.
+-->
+
+# Phaser Structure & System Registration
+
+- Single `GameScene` with Phase Manager
+- Systems registered modularly per phase
+- Shared access to GameState and EventBus
