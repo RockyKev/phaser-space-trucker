@@ -1,10 +1,74 @@
 <!--
 FILE: radio-system.mdc
-VERSION: 0.1
+VERSION: 1.0
 UPDATED: 2025-07-01
-DESC: Controls music, signal tuning, audio log playback.
+DESC: Manages audio streams, radio signals, and ambient broadcasts during flight phases.
 -->
 
-# Radio System
+# 📻 Radio System – Space Trucker
 
-*To be defined.*
+The Radio System lets the player **tune in to audio sources** while flying. It enhances immersion and delivers lore and mission content via faction channels, audio logs, and signal-triggered broadcasts.
+
+---
+
+## 🔧 Core Responsibilities
+
+| Task | Description |
+|------|-------------|
+| Stream audio | Station channels, ambiance, story |
+| React to encounters | Override with distress calls or ghost signals |
+| Track collected logs | Unlocked via inventory or jobs |
+| Persist radio state | Resumes after phase transitions |
+
+---
+
+## 📡 Radio Types
+
+| Type             | Description |
+|------------------|-------------|
+| Station Channel  | Faction-controlled music/news |
+| Personal Log     | Player-collected audio entries |
+| SOS Broadcast    | Localized encounter-driven signals |
+| Story Override   | Narrative triggers (main/side arcs) |
+| Ambient          | Star system background or static |
+
+---
+
+## 🗃️ Data Example
+
+```ts
+{
+  id: "auriga-news",
+  type: "station-channel",
+  title: "Auriga Union Broadcast",
+  factionId: "auriga-union",
+  audioSrc: "auriga-news.mp3",
+  requiresRep: 10
+}
+
+{
+  id: "log-dead-ship",
+  type: "personal-log",
+  title: "Final Words",
+  audioSrc: "dead_ship_log.mp3",
+  requiredFlag: "log-dead-ship-found"
+}
+
+{
+  id: "sos-derelict",
+  type: "sos-broadcast",
+  triggerRadius: 500,
+  origin: { x: 300, y: 1500 },
+  audioSrc: "sos_derelict_loop.mp3",
+  onProximityEnter: "override-radio",
+  oneTimeOnly: true
+}
+```
+
+---
+
+## 🔧 Debug Tools
+
+- Force-tune channels
+- Test override triggers
+- Radio flag viewer

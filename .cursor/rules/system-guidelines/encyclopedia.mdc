@@ -1,10 +1,78 @@
 <!--
 FILE: encyclopedia.mdc
-VERSION: 0.1
+VERSION: 1.1
 UPDATED: 2025-07-01
-DESC: Dynamic lore + help system. Unlocks entries based on jobs completed and stat milestones.
+DESC: Manages all tutorial and lore entries unlocked through gameplay, using centralized unlock flags.
 -->
 
-# Encyclopedia System
+# 🧠 Encyclopedia System – Space Trucker
 
-*To be defined.*
+The encyclopedia serves as the in-game codex, tracking what the player has learned about the galaxy. Entries unlock through item delivery, faction interaction, job completions, and stat milestones. Categories include tutorials, items, factions, star systems, and universal history.
+
+---
+
+## 📚 Categories
+
+| Category        | Description |
+|----------------|-------------|
+| **Tutorials**   | Instructions on gameplay systems; unlocked by use |
+| **Items**       | Each item seen or delivered unlocks an entry |
+| **Factions**    | Reveals faction info via rep milestones, jobs, or books |
+| **Star Systems**| Unlocked by visiting or restoring systems |
+| **History**     | Lore gained from books or milestone jobs |
+
+---
+
+## 🔐 Unlock Structure
+
+Each entry can have multiple **lore levels** (1–3) with increasing detail.
+
+```ts
+{
+  id: "item-corpse-pod",
+  title: "Corpse Pod",
+  category: "items",
+  levels: [
+    {
+      unlockCondition: "hasDelivered('corpse-pod', 1)",
+      text: "A sealed stasis chamber used to contain remains."
+    },
+    {
+      unlockCondition: "hasDelivered('corpse-pod', 5)",
+      text: "Pods are used to minimize scent signature. Older pods may leak."
+    },
+    {
+      unlockCondition: "hasDelivered('corpse-pod', 20)",
+      text: "Ancient pods predate the Collapse and may contain forbidden tech."
+    }
+  ]
+}
+```
+
+---
+
+## 🔁 System Interactions
+
+| System          | Role |
+|-----------------|------|
+| Inventory       | Unlocks item entries |
+| Job Logbook     | Unlocks system or history entries |
+| Stats           | Triggers milestones |
+| Unlock Manager  | Central logic for unlocking conditions |
+| Radio           | Unlocks radio logs |
+| Facilities      | Unlocks tutorials |
+
+---
+
+## 🔧 Dev Tools
+
+- Reveal all entries
+- Simulate flag conditions
+- Dump current lore unlock status
+
+---
+
+## 🔮 Future Ideas
+
+- Visual timeline of discoveries
+- Codex auto-links from job logs and maps

@@ -1,10 +1,84 @@
 <!--
 FILE: shipyard.mdc
-VERSION: 0.1
+VERSION: 1.0
 UPDATED: 2025-07-01
-DESC: Handles ship upgrades, purchases, and module compatibility.
+DESC: Handles ship purchasing, storage, swapping, relocation, and module installation at qualifying stations.
 -->
 
-# Shipyard System
+# 🛠️ Shipyard System – Space Trucker
 
-*To be defined.*
+The Shipyard system allows players to buy, store, move, and configure ships at stations that support it. Each station maintains its own **local ship inventory** and **module storage**, providing a flexible and unpunished way for players to experiment with ship loadouts.
+
+---
+
+## 🧱 Core Features
+
+| Action | Description |
+|--------|-------------|
+| **Buy New Ship** | Purchase from the station’s shipyard catalog. The ship is added to that station’s local storage. |
+| **View Stored Ships** | See all owned ships stored at the current station. No storage fees or limits. |
+| **Switch Ships** | Swap to another stored ship **if inventory and module limits allow**. |
+| **Relocate Ships** | Pay to send a stored ship from one station to another. |
+| **Install Modules** | Equip available modules into a ship’s equipment slots. Modules provide passive or active ship bonuses. |
+
+---
+
+## 📦 Inventory & Module Constraints
+
+- Each ship has:
+  - `maxInventoryCapacity` (how many cargo units it can carry)
+  - `equipmentSlots` (number and type of modules it can install)
+- **Modules** are physical items:
+  - Take up **2 cargo units** when unequipped
+  - Stored in station cargo or carried by ship
+  - **Can be transferred** between ships using cargo space
+
+### 🔄 Switching Rules
+
+- When switching ships:
+  - All **modules are auto-unequipped**
+  - All **cargo is offloaded**
+  - If offloading would **exceed cargo limits**, the swap is blocked
+  - The player must manually clear space before switching
+
+---
+
+## 🧰 Sample Shipyard Interface (Conceptual)
+
+- **Tab 1: Purchase Ships**
+  - Lists ship classes, stats, cost, description
+- **Tab 2: Stored Ships**
+  - Ships stored at this station
+  - Buttons to switch, relocate, or sell
+- **Tab 3: Module Loadout**
+  - Shows equipped modules + open slots
+  - Drag from inventory to equip
+- **Tab 4: Relocation**
+  - Pick ship → destination station → pay fee
+
+---
+
+## 🔁 System Interactions
+
+| System | Role |
+|--------|------|
+| **Inventory System** | Cargo checks when switching or transferring modules |
+| **Stats System** | Stores ship ownership, usage stats |
+| **Trader System** | Purchases modules used in Shipyard |
+| **Station System** | Tracks ship + module storage per location |
+| **Unlock Manager** | Some ships or modules may be locked until later progress |
+
+---
+
+## 🧪 Debug Tools
+
+- Force unlock all ships
+- Bypass inventory checks
+- Auto-swap to specific ship ID
+- Free relocation toggle
+
+---
+
+## 🧩 Future Considerations
+
+- Advanced module interactions (combo modules, restricted slots)

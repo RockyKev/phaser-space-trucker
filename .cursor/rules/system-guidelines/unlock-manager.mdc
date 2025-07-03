@@ -1,0 +1,81 @@
+<!--
+FILE: unlock-manager.mdc
+VERSION: 1.0
+UPDATED: 2025-07-01
+DESC: Manages dynamic player progression flags for lore, tutorials, encounters, achievements, and UI triggers.
+-->
+
+# Unlock Manager – Space Trucker
+
+The Unlock Manager is a core system that tracks player progression by managing **unlock flags**. These flags control access to lore, tutorials, achievements, and other progression-based content. It centralizes conditional checks across all systems.
+
+---
+
+## 🎯 Core Responsibilities
+
+| Responsibility | Description |
+|----------------|-------------|
+| Track unlock flags | Boolean or numeric flags indicating what the player has unlocked |
+| Evaluate conditions | Periodically or reactively check player data (inventory, stats, jobs) |
+| Trigger side effects | Reveal encyclopedia entries, tutorials, UI changes, etc. |
+| Provide debug access | Show current unlocks, allow manual override/reset |
+| Save/load state | Persist across sessions |
+
+---
+
+## 🧠 Example Unlock Flags
+
+```ts
+{
+  "tutorial-fuel-usage": true,
+  "item-corpse-pod-1": true,
+  "item-corpse-pod-2": false,
+  "system-pale-halo-completed": true,
+  "faction-auriga-rep-100": false
+}
+```
+
+---
+
+## 🔁 Flag Evaluation Rules
+
+| Flag Type | Triggering Event |
+|-----------|------------------|
+| `tutorial-*` | First-time use of a system |
+| `item-*` | Held or delivered specific items |
+| `job-*` | Completion of specific jobs |
+| `faction-*` | Reaching reputation milestones |
+| `system-*` | Visiting or restoring a system |
+| `book-*` | Reading lore books |
+| `milestone-*` | Stats-based thresholds |
+
+---
+
+## 🧩 System Interactions
+
+| System        | Usage |
+|---------------|--------|
+| Encyclopedia  | Reveals entries per unlock flag |
+| Stats         | Flags triggered by stat milestones |
+| Job Logbook   | Flags triggered by story completions |
+| Inventory     | Unlocks from item tracking |
+| Radio         | Gated radio logs |
+| Save/Load     | Persist unlock state |
+
+---
+
+## 🔧 Evaluation Example
+
+```ts
+UnlockManager.evaluate("item-corpse-pod-2", () => {
+  return Stats.delivered["corpse-pod"] >= 5;
+});
+```
+
+---
+
+## 🧪 Debug Tools
+
+- View current unlock flags
+- Force/clear unlocks
+- Simulate triggers

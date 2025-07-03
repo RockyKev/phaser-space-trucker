@@ -1,10 +1,101 @@
 <!--
 FILE: facilities.mdc
-VERSION: 0.1
+VERSION: 1.2
 UPDATED: 2025-07-01
-DESC: Manages bar, rest area, rumors, and station flavor dialogue.
+DESC: Station-based interaction hub for rest, drinks, showers, and station supervisor access.
 -->
 
-# Facilities System
+# 🛠️ Facilities System – Space Trucker
 
-*To be defined.*
+Facilities are available at most stations, offering immersive trucker downtime. The player can overhear multi-character **rumors**, **rent a room**, **shower**, or **speak with the station supervisor**, all through a stylized dialogue presentation system.
+
+---
+
+## 🧱 Core Facilities
+
+| Facility | Description |
+|----------|-------------|
+| **Bar** | Order a drink (options based on the station’s faction). The player overhears a fully-scripted rumor using the dialogue system. Rumors may unlock jobs, lore, or be ambient flavor. |
+| **Rent a Room** | Cosmetic. The player can pay to stay the night. Future potential includes profile customization. |
+| **Shower** | Cutscene with ambient chatter or internal monologue. Grants a temporary “Clean” buff. Adds flavor and immersion. |
+| **Speak with Supervisor** | Requires sufficient **station reputation**. Unlocks lore, deeper station history, or new unlock flags. Supervisors are unique NPCs per station. |
+
+---
+
+## 🎙️ Rumor System
+
+- Rumors are implemented using the **dialogue system**, with multiple characters and player proximity.
+- Rumors can:
+  - Trigger new jobs
+  - Unlock encyclopedia entries
+  - Just provide color (flavor-only)
+
+```ts
+{
+  id: "rumor-black-market",
+  type: "job-unlock",
+  unlocks: ["job-black-market-supply"],
+  dialogId: "rumor_black_market_script"
+}
+
+{
+  id: "rumor-collapse-story",
+  type: "encyclopedia",
+  unlocks: ["history-collapse-massacre"],
+  dialogId: "rumor_collapse_script"
+}
+
+{
+  id: "rumor-space-chickens",
+  type: "flavor",
+  dialogId: "rumor_space_chickens"
+}
+```
+
+- Rumors are selected randomly and repeat rarely unless debug tools are used.
+- **No rumor is locked by faction**. The drinks change by faction, not the rumor pool.
+
+---
+
+## 🍻 Faction Drink Mapping
+
+Each faction defines its drink offerings using a shared JSON config:
+
+```ts
+{
+  "humans": ["Wheat Beer", "Cola", "Dark Whiskey"],
+  "glipglork": ["Green Sludge", "Tomato Sauce", "Dr. Pepper"],
+  "dustwalkers": ["Boiled Vapor", "Battery Acid", "Moon Cider"]
+}
+```
+
+- These drinks are **cosmetic only** but contribute to world flavor and station identity.
+
+---
+
+## 🔁 System Interactions
+
+| System            | Role |
+|-------------------|------|
+| **Dialogue System** | Used for rumors, supervisor scenes |
+| **Unlock Manager**  | Tracks unlocked rumors or supervisor flags |
+| **Stats**           | Tracks shower use, drinks consumed |
+| **Job Board**       | Rumors may add new jobs |
+| **Encyclopedia**    | Rumors/supervisors may unlock lore |
+| **Station System**  | Controls access based on station rep |
+
+---
+
+## 🧪 Debug Tools
+
+- Force display of any rumor dialog
+- Bypass rep requirement for supervisor
+- Log drink/dramatic event history
+- Reveal all potential rumor unlocks
+
+---
+
+## 🧩 Future Considerations
+
+- Supervisor-based perks (e.g., discounts or fast travel access)
+- Station customization after repeated visits or job completions
